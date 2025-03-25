@@ -6,6 +6,7 @@ public class CarController : MonoBehaviour
     [Header("Car settings")]
     public float accelFactor = 30.0f;
     public float turnFactor = 3.5f;
+    public float driftFactor = 0.5f;
 
     float accelInput = 0;
     float steerInput = 0;
@@ -31,7 +32,7 @@ public class CarController : MonoBehaviour
     void FixedUpdate()
     {
         ApplyEngineForce();
-
+        KillSideVelocity();
         ApplySteering();
     }
 
@@ -51,6 +52,14 @@ public class CarController : MonoBehaviour
 
         //apply rotation to car
         carRigidbody.MoveRotation(rotationAngle);
+    }
+
+    void KillSideVelocity()
+    {
+        Vector2 fwdVelo = transform.up * Vector2.Dot(carRigidbody.linearVelocity, transform.up);
+        Vector2 rightVelo = transform.right * Vector2.Dot(carRigidbody.linearVelocity, transform.right);
+
+        carRigidbody.linearVelocity = fwdVelo + rightVelo * driftFactor;
     }
 
     public void SetInputVector(Vector2 inputVector)
