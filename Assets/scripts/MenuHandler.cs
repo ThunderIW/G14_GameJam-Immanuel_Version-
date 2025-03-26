@@ -16,8 +16,10 @@ public class MenuHandler : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip clickSound;
 
-    private string OptionsScene = "Options";
 
+    [Header("Scences")]
+    public string optionsSceneName = "Options";
+    public string mainMenuSceneName = "main_menu";
     void Start()
     {
         // Fade in from black when menu loads
@@ -40,7 +42,7 @@ public class MenuHandler : MonoBehaviour
     public void OpenOptions()
     {
         PlayClickSound();
-        StartSceneTransition(OptionsScene);
+        StartSceneTransition(optionsSceneName);
         Debug.Log("Options menu clicked! Add your logic here.");
     }
 
@@ -55,6 +57,12 @@ public class MenuHandler : MonoBehaviour
 #else
     Application.Quit();
 #endif
+    }
+    public void Save()
+    {
+
+        PlayClickSound();
+        StartSceneTransition(mainMenuSceneName);
     }
 
     void StartSceneTransition(string sceneName)
