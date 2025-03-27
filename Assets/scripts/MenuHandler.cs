@@ -46,6 +46,17 @@ public class MenuHandler : MonoBehaviour
         Debug.Log("Options menu clicked! Add your logic here.");
     }
 
+    public void setFullScreen(bool isfullscreen)
+    {
+        Screen.fullScreen = isfullscreen;
+
+    }
+    public void setQuaility(int quailityIndex)
+    {
+        QualitySettings.SetQualityLevel(quailityIndex);
+
+    }
+
     public void QuitGame()
     {
         PlayClickSound();
