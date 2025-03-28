@@ -13,8 +13,11 @@ public class SortGameManager : MonoBehaviour
 
     public TextMeshProUGUI studentsLeftText;
     public TextMeshProUGUI feedbackText;
+    public TextMeshProUGUI startPromptText;
+
     public int totalStudents = 20;
     private int studentsSorted = 0;
+    private bool gameStarted = false;
 
     void Awake()
     {
@@ -25,6 +28,30 @@ public class SortGameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    void Update()
+    {
+        if (!gameStarted && (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D)))
+        {
+            StartGame();
+        }
+    }
+
+    void StartGame()
+    {
+        gameStarted = true;
+
+        if (startPromptText != null)
+        {
+            startPromptText.gameObject.SetActive(false);
+        }
+
+        StudentSpawner spawner = FindAnyObjectByType<StudentSpawner>();
+        if (spawner != null)
+        {
+            spawner.enabled = true;
         }
     }
 
@@ -89,22 +116,22 @@ public class SortGameManager : MonoBehaviour
     }
 
     public void StudentSorted()
-{
-    studentsSorted++;
-
-    int remaining = totalStudents - studentsSorted;
-
-    if (studentsLeftText != null)
     {
-        studentsLeftText.text = $"Students Left: {remaining}";
-    }
+        studentsSorted++;
 
-    if (studentsSorted >= totalStudents)
-    {
-        ShowFeedback("Sorted!");
-        EndGame();
+        int remaining = totalStudents - studentsSorted;
+
+        if (studentsLeftText != null)
+        {
+            studentsLeftText.text = $"Students Left: {remaining}";
+        }
+
+        if (studentsSorted >= totalStudents)
+        {
+            ShowFeedback("Sorted!");
+            EndGame();
+        }
     }
-}
 
     void EndGame()
     {
@@ -112,33 +139,32 @@ public class SortGameManager : MonoBehaviour
     }
 
     public void ShowFeedback(string message)
-{
-    if (feedbackText == null) return;
-
-    feedbackText.text = message;
-    feedbackText.color = new Color32(0, 31, 77, 255); 
-    feedbackText.alpha = 1f;
-
-    StartCoroutine(FadeFeedback());
-}
-
-private IEnumerator FadeFeedback()
-{
-    yield return new WaitForSeconds(1.5f);
-
-    float duration = 0.5f;
-    float elapsed = 0f;
-    Color startColor = feedbackText.color;
-
-    while (elapsed < duration)
     {
-        elapsed += Time.deltaTime;
-        float t = elapsed / duration;
-        feedbackText.color = new Color(startColor.r, startColor.g, startColor.b, Mathf.Lerp(1f, 0f, t));
-        yield return null;
+        if (feedbackText == null) return;
+
+        feedbackText.text = message;
+        feedbackText.color = new Color32(0, 31, 77, 255);
+        feedbackText.alpha = 1f;
+
+        StartCoroutine(FadeFeedback());
     }
 
-    feedbackText.text = "";
-}
+    private IEnumerator FadeFeedback()
+    {
+        yield return new WaitForSeconds(1.5f);
 
+        float duration = 0.5f;
+        float elapsed = 0f;
+        Color startColor = feedbackText.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            feedbackText.color = new Color(startColor.r, startColor.g, startColor.b, Mathf.Lerp(1f, 0f, t));
+            yield return null;
+        }
+
+        feedbackText.text = "";
+    }
 }

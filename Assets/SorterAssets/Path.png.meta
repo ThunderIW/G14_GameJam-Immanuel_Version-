@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9504f7a47695847538e8f61dd6ab15c4
+guid: 201be306a132e43579270c66217ffdf0
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "Screenshot 2025-03-26 at 10.24.04\u202FPM_0": -4613716797451359388
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

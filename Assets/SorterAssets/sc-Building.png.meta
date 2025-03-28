@@ -1,13 +1,22 @@
 fileFormatVersion: 2
-guid: ed4637197c5824fe9925610676417d31
+guid: da7aeff7b5f7640f4a38b5c1e8b98880
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 592370987088946711
-    second: Eng_0
+      213: 4794315815557049191
+    second: sc-Building_0
   - first:
-      213: 10534186108621066
-    second: Eng_1
+      213: 8655574411791653099
+    second: sc-Building_1
+  - first:
+      213: 9034017164494416419
+    second: sc-Building_2
+  - first:
+      213: 8040887031037728724
+    second: sc-Building_3
+  - first:
+      213: 2341792529995804080
+    second: sc-Building_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Eng_0
+      name: sc-Building_0
       rect:
         serializedVersion: 2
-        x: 84
-        y: 284
-        width: 959
-        height: 739
+        x: 11
+        y: 88
+        width: 979
+        height: 923
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7162fa43646883800800000000000000
-      internalID: 592370987088946711
+      spriteID: 76ba05735d4d88240800000000000000
+      internalID: 4794315815557049191
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Eng_1
+      name: sc-Building_1
       rect:
         serializedVersion: 2
-        x: 1047
-        y: 578
-        width: 17
-        height: 32
+        x: 915
+        y: 757
+        width: 6
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +162,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a01900559cc652000800000000000000
-      internalID: 10534186108621066
+      spriteID: be85dcd7117ce1870800000000000000
+      internalID: 8655574411791653099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sc-Building_2
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 638
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32aa8703fb64f5d70800000000000000
+      internalID: 9034017164494416419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sc-Building_3
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 544
+        width: 6
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d79c0cf628f69f60800000000000000
+      internalID: 8040887031037728724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sc-Building_4
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 392
+        width: 6
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bd201016e7bf7020800000000000000
+      internalID: 2341792529995804080
       vertices: []
       indices: 
       edges: []

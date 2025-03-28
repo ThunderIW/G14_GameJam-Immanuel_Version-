@@ -23,6 +23,12 @@ public class StudentSpawner : MonoBehaviour
 
     private float timer;
 
+    void Start()
+    {
+    enabled = false;
+    }
+
+
     void Update()
     {
         timer += Time.deltaTime;
