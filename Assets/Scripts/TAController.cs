@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class TAController : MonoBehaviour
 {
@@ -7,6 +9,8 @@ public class TAController : MonoBehaviour
     [SerializeField] private float detectionDistance = 5f;
     [SerializeField] private LayerMask detectionMask; // Set this to include only the "Player" layer
     [SerializeField] private Transform raycastOrigin; // Recommended to place near "eyes"
+    [SerializeField] private GameObject emote; // The emote sprite
+
 
     private Rigidbody2D rb;
     private Vector2 direction = Vector2.left; // TA starts moving left
@@ -46,39 +50,26 @@ public class TAController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Hit: " + hit.collider.name);
 
             if (hit.collider.GetComponentInParent<PlayerController>() != null)
             {
-                Debug.Log("TA sees the Player!");
-                isPlayerInSight = true;
+            isPlayerInSight = true;
+            emote.SetActive(true);
+            Debug.Log("Player caught! Reloading scene...");
+            GameManager.Instance.HandlePlayerCaught();
             }
             else
             {
-                Debug.Log("Hit something, but not the Player.");
                 isPlayerInSight = false;
             }
         }
         else
         {
+            emote.SetActive(false);
             isPlayerInSight = false;
         }
     }
 
-
-    // Optional patrol logic — flip direction when hitting a TurnPoint
-    /*
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("TurnPoint"))
-        {
-            direction *= -1;
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
-        }
-    }
-    */
 
     private void OnDrawGizmosSelected()
     {

@@ -6,6 +6,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Animator animator;
     [SerializeField] private LayerMask interactableMask;
+    [SerializeField] private Transform TA; // Assign the TA in the inspector
+    [SerializeField] private Transform raycastOrigin; // Empty GameObject near player's eyes
+    [SerializeField] private float detectionDistance = 8f;
+    [SerializeField] private LayerMask detectionMask; // Set this to TA layer
+    [SerializeField] private GameObject scaredIcon; // The emote sprite
     
 
 
@@ -34,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        DetectTA();
+
         if (!isHiding)
         {
             rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
@@ -45,7 +52,58 @@ public class PlayerController : MonoBehaviour
 
         if (!hasHiddenBefore)
             HandleInteractablePopup();
+        
+        Debug.DrawRay(raycastOrigin.position, moveDirection * detectionDistance, Color.yellow);
+
     }
+
+    private void DetectTA()
+    {
+        if (raycastOrigin == null || TA == null) return;
+
+        Vector2 origin = raycastOrigin.position;
+        Vector2 target = TA.position;
+        Vector2 dir = (target - origin).normalized;
+
+        // Determine player facing direction
+        Vector2 facing = lastDirection == "right" ? Vector2.right : Vector2.left;
+
+        // Check if TA is in front
+        float dot = Vector2.Dot(dir, facing);
+        if (dot <= 0f)
+        {
+            scaredIcon.SetActive(false);
+            return;
+        }
+
+        // Perform the raycast
+        RaycastHit2D hit = Physics2D.Raycast(origin, dir, detectionDistance, detectionMask);
+        Debug.DrawRay(origin, dir * detectionDistance, Color.yellow);
+
+        if (hit.collider != null)
+        {
+            var ta = hit.collider.GetComponentInParent<TAController>();
+            scaredIcon.SetActive(ta != null);
+        }
+        else
+        {
+            scaredIcon.SetActive(false);
+        }
+    }
+
+
+
+    private void OnDrawGizmosSelected()
+    {
+        if (raycastOrigin != null && TA != null)
+        {
+            Gizmos.color = Color.green;
+            Vector2 dir = (TA.position - raycastOrigin.position).normalized;
+            Gizmos.DrawLine(raycastOrigin.position, raycastOrigin.position + (Vector3)dir * detectionDistance);
+        }
+    }
+
+
 
     private void HandleMoveInput(Vector2 input)
     {
@@ -127,6 +185,7 @@ public class PlayerController : MonoBehaviour
 
         if (hit.collider != null)
         {
+            Debug.Log("Hit: " + hit.collider.name);
             var interactable = hit.collider.GetComponent<InteractableController>();
             if (interactable != null)
             {
@@ -195,4 +254,6 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         transform.position = Vector3.zero;
     }
+
+    
 }
