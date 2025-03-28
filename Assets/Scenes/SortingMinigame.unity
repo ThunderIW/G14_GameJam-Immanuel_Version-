@@ -447,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptedMajor: Science
   correctSound: {fileID: 8300000, guid: bf095c3ff246640fca0936980fa82a9a, type: 3}
+  incorrectSound: {fileID: 8300000, guid: 3a6ab4ae0bc8c45a89bdb1e35e64fe7f, type: 3}
 --- !u!61 &367231580
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1682,6 +1683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptedMajor: Arts
   correctSound: {fileID: 8300000, guid: bf095c3ff246640fca0936980fa82a9a, type: 3}
+  incorrectSound: {fileID: 8300000, guid: 3a6ab4ae0bc8c45a89bdb1e35e64fe7f, type: 3}
 --- !u!61 &1006610773
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1986,6 +1988,7 @@ GameObject:
   - component: {fileID: 1215962640}
   - component: {fileID: 1215962639}
   - component: {fileID: 1215962642}
+  - component: {fileID: 1215962643}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2111,6 +2114,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1215962643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215962638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3818785c49c9a4c4fb7afae19f5d3947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1218026418
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,6 +2202,53 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.66506886, y: 0.21866776, z: 0.016075201}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1259302858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1259302860}
+  - component: {fileID: 1259302859}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1259302859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259302858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5ebdbd965554b83b40b8fbc1fe4abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resetDelay: 2
+  failSound: {fileID: 0}
+  hasFailed: 0
+--- !u!4 &1259302860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259302858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.03406793, y: -0.37151134, z: 0.04318849}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2396,6 +2458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptedMajor: Engineering
   correctSound: {fileID: 8300000, guid: bf095c3ff246640fca0936980fa82a9a, type: 3}
+  incorrectSound: {fileID: 8300000, guid: 3a6ab4ae0bc8c45a89bdb1e35e64fe7f, type: 3}
 --- !u!61 &1591247684
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3243,3 +3306,4 @@ SceneRoots:
   - {fileID: 1006610774}
   - {fileID: 367231581}
   - {fileID: 1591247685}
+  - {fileID: 1259302860}
