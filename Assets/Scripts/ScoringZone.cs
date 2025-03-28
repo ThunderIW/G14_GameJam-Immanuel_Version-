@@ -20,12 +20,18 @@ public class ScoringZone : MonoBehaviour
         {
             audio.clip = correctSound;
             audio.Play();
+
+            SortGameManager.Instance.StudentSorted(); 
+            
+
             Destroy(other.gameObject);
         }
         else
         {
             audio.clip = incorrectSound;
             audio.Play();
+
+            SortGameManager.Instance.ShowFeedback("Wrong class!");
             SortGameManager.Instance.Fail();
         }
     }
