@@ -5,12 +5,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Animator animator;
+    [SerializeField] private LayerMask interactableMask;
+    
+
 
     private Rigidbody2D rb;
     private Vector2 moveDirection;
     private bool isHiding = false;
     private Vector3 lastPositionBeforeHide;
     private InteractableController currentInteractable;
+    private InteractableController lastDetectedInteractable;
+    private bool hasHiddenBefore = false;
+
+
 
     private string lastDirection = "right"; // default facing direction
 
@@ -35,6 +42,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
         }
+
+        if (!hasHiddenBefore)
+            HandleInteractablePopup();
     }
 
     private void HandleMoveInput(Vector2 input)
@@ -71,6 +81,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void HandleInteractablePopup()
+    {
+        Vector2 origin = transform.position;
+        Vector2 dir = lastDirection == "left" ? Vector2.left : Vector2.right;
+        float interactRange = 0.1f;
+
+        RaycastHit2D hit = Physics2D.Raycast(origin + dir * 0.1f, dir, interactRange, interactableMask);
+
+        InteractableController current = null;
+        if (hit.collider != null)
+        {
+            current = hit.collider.GetComponent<InteractableController>();
+        }
+
+        if (current != lastDetectedInteractable)
+        {
+            // Hide previous
+            if (lastDetectedInteractable != null)
+                lastDetectedInteractable.ShowPopup(false);
+
+            // Show new
+            if (current != null)
+                current.ShowPopup(true);
+
+            lastDetectedInteractable = current;
+        }
+    }
+
+
     private void Interact()
     {
         if (isHiding)
@@ -79,17 +118,32 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.5f);
-        foreach (var hit in hits)
+        Vector2 origin = transform.position;
+        Vector2 dir = lastDirection == "left" ? Vector2.left : Vector2.right;
+        float interactRange = 0.1f;
+
+        RaycastHit2D hit = Physics2D.Raycast(origin + dir * 0.1f, dir, interactRange, interactableMask);
+        Debug.DrawRay(origin + dir * 0.1f, dir * interactRange, Color.green, 1f);
+
+        if (hit.collider != null)
         {
-            var interactable = hit.GetComponent<InteractableController>();
+            var interactable = hit.collider.GetComponent<InteractableController>();
             if (interactable != null)
             {
                 interactable.Interact(this);
-                return;
+            }
+            else
+            {
+                Debug.Log("Hit something, but not interactable: " + hit.collider.name);
             }
         }
+        else
+        {
+            Debug.Log("No interactable in direction: " + dir);
+        }
     }
+
+
 
     public void EnterHidingSpot(InteractableController interactable)
     {
@@ -101,6 +155,12 @@ public class PlayerController : MonoBehaviour
 
         interactable.ShowOpenedFrame();
         Invoke(nameof(HideInside), 0.1f); // Small delay for open frame
+        if (!hasHiddenBefore)
+        {
+            hasHiddenBefore = true;
+            currentInteractable.HidePopup(); // Disable popup after first hide
+        }
+
     }
 
     private void HideInside()

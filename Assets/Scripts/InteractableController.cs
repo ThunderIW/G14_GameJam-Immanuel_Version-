@@ -16,6 +16,9 @@ public class InteractableController : MonoBehaviour
     public Sprite openedSprite;
     public Sprite hidingSprite;
 
+    [Header("Popup")]
+    public GameObject spacePopup;
+
     private void Awake()
     {
         if (model != null)
@@ -42,5 +45,16 @@ public class InteractableController : MonoBehaviour
     public void ShowClosed()
     {
         sr.sprite = closedSprite;
+    }
+
+    public void ShowPopup(bool show)
+    {
+        if (spacePopup != null)
+            spacePopup.SetActive(show);
+    }
+
+    public void HidePopup()
+    {
+        spacePopup?.SetActive(false);
     }
 }
