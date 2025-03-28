@@ -116,10 +116,10 @@ TextureImporter:
       name: arts_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 242
-        width: 1215
-        height: 841
+        x: 236
+        y: 61
+        width: 546
+        height: 799
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

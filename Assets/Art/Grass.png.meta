@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5604cefc246d44fe5b339ee7f3f18e47
+guid: a0ebb8ef306a24b04a7ca18cdb70b7ec
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1190482976772201438
-    second: science_0
+      213: -1347532211411968617
+    second: Grass_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: science_0
+      name: Grass_0
       rect:
         serializedVersion: 2
-        x: 231
-        y: 96
-        width: 555
-        height: 753
+        x: 0
+        y: 0
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 224e7524a0e8a7fe0800000000000000
-      internalID: -1190482976772201438
+      spriteID: 79d946fd79a9c4de0800000000000000
+      internalID: -1347532211411968617
       vertices: []
       indices: 
       edges: []
