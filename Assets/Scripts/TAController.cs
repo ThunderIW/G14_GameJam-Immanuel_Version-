@@ -4,12 +4,24 @@ using UnityEngine.SceneManagement;
 
 public class TAController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2f;
+    [Header("Managers")]
+    [SerializeField] private Animator animator;
     [SerializeField] private Transform player;
+    
+    [Header("Layer Masks")]
+    [SerializeField] private LayerMask detectionMask; 
+
+    [Header("Raycast")]
+    [SerializeField] private Transform raycastOrigin; 
+
+    [Header("Emote")]
+    [SerializeField] private GameObject emote; 
+
+    [Header("Tweakables")]
+    [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float detectionDistance = 5f;
-    [SerializeField] private LayerMask detectionMask; // Set this to include only the "Player" layer
-    [SerializeField] private Transform raycastOrigin; // Recommended to place near "eyes"
-    [SerializeField] private GameObject emote; // The emote sprite
+    
+
 
 
     private Rigidbody2D rb;
@@ -37,7 +49,7 @@ public class TAController : MonoBehaviour
 
     }
     
-
+    //Function to detect player with Raycast (constantly updated with FixedUpdate)
     private void DetectPlayer()
     {
         if (raycastOrigin == null || player == null) return;
@@ -55,6 +67,7 @@ public class TAController : MonoBehaviour
             {
             isPlayerInSight = true;
             emote.SetActive(true);
+            animator.Play("TA_angryleft");
             Debug.Log("Player caught! Reloading scene...");
             GameManager.Instance.HandlePlayerCaught();
             }
@@ -70,7 +83,7 @@ public class TAController : MonoBehaviour
         }
     }
 
-
+    //Debug draw raycast ray
     private void OnDrawGizmosSelected()
     {
         if (raycastOrigin != null && player != null)

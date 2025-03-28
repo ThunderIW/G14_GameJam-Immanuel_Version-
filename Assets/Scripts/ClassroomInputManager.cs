@@ -14,13 +14,13 @@ public class InputManager : MonoBehaviour
     {
         Vector2 input = Vector2.zero;
 
-        // LEFT (A key)
+        
         if (Input.GetKeyDown(KeyCode.A))
             OnLeftPressed.Invoke(true);
         if (Input.GetKeyUp(KeyCode.A))
             OnLeftPressed.Invoke(false);
 
-        // RIGHT (D key)
+        
         if (Input.GetKeyDown(KeyCode.D))
             OnRightPressed.Invoke(true);
         if (Input.GetKeyUp(KeyCode.D))

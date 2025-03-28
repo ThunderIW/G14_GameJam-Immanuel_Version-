@@ -124,7 +124,7 @@ GameObject:
   m_Layer: 9
   m_Name: RayCast
   m_TagString: Untagged
-  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4517a73572af710478b7813f549af8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 0.5
   inputManager: {fileID: 0}
   animator: {fileID: 4008095826120090032}
   interactableMask:
@@ -327,7 +327,7 @@ MonoBehaviour:
     m_Bits: 256
   TA: {fileID: 0}
   raycastOrigin: {fileID: 1165121096770899094}
-  detectionDistance: 8
+  detectionDistance: 2
   detectionMask:
     serializedVersion: 2
     m_Bits: 512
@@ -405,8 +405,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 708249147
-  m_SortingLayer: 2
+  m_SortingLayerID: 1914580937
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 4556693123190931683, guid: fdd06ec137fe0a447aacf6f0e6741e68, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -2,15 +2,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
+    [Header("Managers")]
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Animator animator;
+
+    [Header("Layer Masks")]
     [SerializeField] private LayerMask interactableMask;
-    [SerializeField] private Transform TA; // Assign the TA in the inspector
-    [SerializeField] private Transform raycastOrigin; // Empty GameObject near player's eyes
+    [SerializeField] private LayerMask detectionMask; 
+
+    [Header("Raycast")]
+    [SerializeField] private Transform raycastOrigin;
+
+    [Header("Emote")]
+    [SerializeField] private GameObject emote; 
+
+    [Header("Tweakables")]
+    [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float detectionDistance = 8f;
-    [SerializeField] private LayerMask detectionMask; // Set this to TA layer
-    [SerializeField] private GameObject scaredIcon; // The emote sprite
+
     
 
 
@@ -33,7 +42,6 @@ public class PlayerController : MonoBehaviour
         inputManager.OnMove.AddListener(HandleMoveInput);
         inputManager.OnLeftPressed.AddListener(HandleLeftInput);
         inputManager.OnRightPressed.AddListener(HandleRightInput);
-        inputManager.OnResetPressed.AddListener(ResetPlayer);
         inputManager.OnSpacePressed.AddListener(Interact);
     }
 
@@ -57,54 +65,48 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //Used Raycast to check for any TA object. 
+    //When triggered, the scared :o emote pops up to to prompt player to hide
     private void DetectTA()
     {
-        if (raycastOrigin == null || TA == null) return;
+        if (raycastOrigin == null) return;
 
         Vector2 origin = raycastOrigin.position;
-        Vector2 target = TA.position;
-        Vector2 dir = (target - origin).normalized;
+        Vector2 dir = lastDirection == "right" ? Vector2.right : Vector2.left;
 
-        // Determine player facing direction
-        Vector2 facing = lastDirection == "right" ? Vector2.right : Vector2.left;
-
-        // Check if TA is in front
-        float dot = Vector2.Dot(dir, facing);
-        if (dot <= 0f)
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, detectionDistance, detectionMask);
+        foreach (var hit in hits)
         {
-            scaredIcon.SetActive(false);
-            return;
+            Debug.Log("Raycast hit: " + hit.collider.name);
         }
-
-        // Perform the raycast
-        RaycastHit2D hit = Physics2D.Raycast(origin, dir, detectionDistance, detectionMask);
         Debug.DrawRay(origin, dir * detectionDistance, Color.yellow);
 
-        if (hit.collider != null)
+        bool sawTA = false;
+
+        foreach (var hit in hits)
         {
-            var ta = hit.collider.GetComponentInParent<TAController>();
-            scaredIcon.SetActive(ta != null);
+            if (hit.collider != null && hit.collider.GetComponentInParent<TAController>() != null)
+            {
+                sawTA = true;
+                break;
+            }
         }
-        else
-        {
-            scaredIcon.SetActive(false);
-        }
+
+        emote.SetActive(sawTA);
     }
-
-
-
+    //Draw the raycast line for debug
     private void OnDrawGizmosSelected()
     {
-        if (raycastOrigin != null && TA != null)
+        if (raycastOrigin != null)
         {
-            Gizmos.color = Color.green;
-            Vector2 dir = (TA.position - raycastOrigin.position).normalized;
+            Gizmos.color = Color.yellow;
+            Vector2 dir = lastDirection == "right" ? Vector2.right : Vector2.left;
             Gizmos.DrawLine(raycastOrigin.position, raycastOrigin.position + (Vector3)dir * detectionDistance);
         }
     }
 
 
-
+    //Handles the appropriate anims for the player depedning on their state
     private void HandleMoveInput(Vector2 input)
     {
         moveDirection = input.normalized;
@@ -139,35 +141,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleInteractablePopup()
-    {
-        Vector2 origin = transform.position;
-        Vector2 dir = lastDirection == "left" ? Vector2.left : Vector2.right;
-        float interactRange = 0.1f;
-
-        RaycastHit2D hit = Physics2D.Raycast(origin + dir * 0.1f, dir, interactRange, interactableMask);
-
-        InteractableController current = null;
-        if (hit.collider != null)
-        {
-            current = hit.collider.GetComponent<InteractableController>();
-        }
-
-        if (current != lastDetectedInteractable)
-        {
-            // Hide previous
-            if (lastDetectedInteractable != null)
-                lastDetectedInteractable.ShowPopup(false);
-
-            // Show new
-            if (current != null)
-                current.ShowPopup(true);
-
-            lastDetectedInteractable = current;
-        }
-    }
-
-
+    //Handles the hiding mechanic, when the player presses spacebar, they can hide in a classroom or locker
     private void Interact()
     {
         if (isHiding)
@@ -201,9 +175,35 @@ public class PlayerController : MonoBehaviour
             Debug.Log("No interactable in direction: " + dir);
         }
     }
+    //Spacebar popup when player is near door or locker
+    private void HandleInteractablePopup()
+    {
+        Vector2 origin = transform.position;
+        Vector2 dir = lastDirection == "left" ? Vector2.left : Vector2.right;
+        float interactRange = 0.1f;
 
+        RaycastHit2D hit = Physics2D.Raycast(origin + dir * 0.1f, dir, interactRange, interactableMask);
 
+        InteractableController current = null;
+        if (hit.collider != null)
+        {
+            current = hit.collider.GetComponent<InteractableController>();
+        }
 
+        if (current != lastDetectedInteractable)
+        {
+            if (lastDetectedInteractable != null)
+                lastDetectedInteractable.ShowPopup(false);
+
+            if (current != null)
+                current.ShowPopup(true);
+
+            lastDetectedInteractable = current;
+        }
+    }
+
+    
+    //Script to open the door/locker and show player hiding
     public void EnterHidingSpot(InteractableController interactable)
     {
         if (isHiding) return;
@@ -222,6 +222,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //Show the player hiding in room/locker
     private void HideInside()
     {
         currentInteractable.ShowHidingSprite();
@@ -229,6 +230,7 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    //Exit the hiding spot 
     public void ExitHidingSpot()
     {
         if (!isHiding || currentInteractable == null) return;
@@ -242,18 +244,10 @@ public class PlayerController : MonoBehaviour
         Invoke(nameof(CloseAfterExit), 0.1f); // Show open frame briefly
     }
 
+    //Close the door and return to normal sprite
     private void CloseAfterExit()
     {
         currentInteractable.ShowClosed();
         currentInteractable = null;
     }
-
-    private void ResetPlayer()
-    {
-        Debug.Log("Player Reset (R)");
-        rb.linearVelocity = Vector2.zero;
-        transform.position = Vector3.zero;
-    }
-
-    
 }

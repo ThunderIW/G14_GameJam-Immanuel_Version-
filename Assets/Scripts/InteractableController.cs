@@ -8,7 +8,7 @@ public class InteractableController : MonoBehaviour
     public Transform hidePoint;
 
     [Header("Visuals")]
-    public GameObject model; // assign object here
+    public GameObject model; 
     private SpriteRenderer sr;
 
     [Header("Sprites")]

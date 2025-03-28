@@ -54,25 +54,33 @@ public class GameManager : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            t += Time.deltaTime;
+            t += Time.deltaTime / fadeDuration;
             fadeCanvas.alpha = t;
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.5f);
+        fadeCanvas.alpha = 1;
+
+        // Stay black for a moment
+        yield return new WaitForSeconds(1f); // You can adjust the duration here
 
         // Reload scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        // Optionally fade back in
-        yield return null; // wait one frame for scene to load
+        // Wait one frame for scene to fully load
+        yield return null;
 
+        yield return new WaitForSeconds(0.5f); // You can adjust the duration here
+
+        // Fade back in
         t = 1;
         while (t > 0)
         {
-            t -= Time.deltaTime;
+            t -= Time.deltaTime / fadeDuration;
             fadeCanvas.alpha = t;
             yield return null;
         }
+
+        fadeCanvas.alpha = 0;
     }
 }
