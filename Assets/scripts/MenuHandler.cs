@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
 
+
 public class MenuHandler : MonoBehaviour
 {
     [Header("UI Fade Image (fullscreen)")]
@@ -16,10 +17,11 @@ public class MenuHandler : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip clickSound;
 
+   
 
     [Header("Scences")]
-    public string optionsSceneName = "Options";
-    public string mainMenuSceneName = "main_menu";
+    public string optionsScene = "Options";
+    public string mainMenuScene = "main_menu";
     void Start()
     {
         // Fade in from black when menu loads
@@ -33,6 +35,8 @@ public class MenuHandler : MonoBehaviour
         }
     }
 
+
+
     public void PlayGame()
     {
         PlayClickSound();
@@ -42,19 +46,28 @@ public class MenuHandler : MonoBehaviour
     public void OpenOptions()
     {
         PlayClickSound();
-        StartSceneTransition(optionsSceneName);
+        StartSceneTransition(optionsScene);
         Debug.Log("Options menu clicked! Add your logic here.");
     }
 
     public void setFullScreen(bool isfullscreen)
     {
+        Debug.Log($"Full Screen has been clicked {isfullscreen}");
         Screen.fullScreen = isfullscreen;
 
     }
     public void setQuaility(int quailityIndex)
     {
+        
+
+        Debug.Log(QualitySettings.names[quailityIndex]);
         QualitySettings.SetQualityLevel(quailityIndex);
 
+    }
+    public void goBackToMenu()
+    {
+        PlayClickSound();
+        StartSceneTransition(mainMenuScene);
     }
 
     public void QuitGame()
@@ -73,7 +86,7 @@ public class MenuHandler : MonoBehaviour
     {
 
         PlayClickSound();
-        StartSceneTransition(mainMenuSceneName);
+        StartSceneTransition(mainMenuScene);
     }
 
     void StartSceneTransition(string sceneName)

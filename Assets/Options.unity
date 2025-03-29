@@ -2737,7 +2737,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: High
+  m_text: Very Low
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f585cd8da503f8740baf6cb13548b4d9, type: 2}
   m_sharedMaterial: {fileID: 4773501669857625430, guid: f585cd8da503f8740baf6cb13548b4d9, type: 2}
@@ -2855,8 +2855,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 145, y: -50}
-  m_SizeDelta: {x: 220, y: 100}
+  m_AnchoredPosition: {x: 158.44107, y: -50}
+  m_SizeDelta: {x: 246.882, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &906470151
 MonoBehaviour:
@@ -2909,19 +2909,22 @@ MonoBehaviour:
   m_MultiSelect: 0
   m_Options:
     m_Options:
-    - m_Text: High
+    - m_Text: Very Low
+      m_Image: {fileID: 0}
+      m_Color: {r: 1, g: 1, b: 1, a: 1}
+    - m_Text: LOW
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
     - m_Text: Medium
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
-    - m_Text: Low
+    - m_Text: High
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 459921324}
+      - m_Target: {fileID: 459921329}
         m_TargetAssemblyTypeName: MenuHandler, Assembly-CSharp
         m_MethodName: setQuaility
         m_Mode: 0
