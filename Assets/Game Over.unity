@@ -2920,7 +2920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelText: {fileID: 1994466690}
-  highScoreText: {fileID: 0}
+  highScoreText: {fileID: 1830696577}
   level: 6
   highScore: 6
 --- !u!4 &1614235366

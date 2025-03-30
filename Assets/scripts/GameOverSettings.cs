@@ -23,7 +23,7 @@ public class GameOverSettings : MonoBehaviour
 
         }
         levelText.text = $"You reached:  <b><color=#6EC4E8>level {level}</color></b>";
-        highScoreText.text= $"{highScore}";
+        highScoreText.text= $"level {highScore}";
 
 
 
