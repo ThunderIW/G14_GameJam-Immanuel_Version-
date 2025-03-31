@@ -2987,7 +2987,7 @@ MonoBehaviour:
   gameOverSceneName: GameOver
   levelSceneNames:
   - SortingMinigame
-  - main_menu
+  - AvoidTheTA
 --- !u!4 &1775070150
 Transform:
   m_ObjectHideFlags: 0
