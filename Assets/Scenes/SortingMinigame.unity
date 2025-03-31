@@ -3849,7 +3849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7bc3f0ddc90724489ac655807cb62a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneMusic: {fileID: 8300000, guid: 6b4b5478ddd00cf49b6dfce040a0536f, type: 3}
+  sceneMusic: {fileID: 8300000, guid: a1a3cc1de51062e479813347c6aaafc8, type: 3}
 --- !u!4 &991204857
 Transform:
   m_ObjectHideFlags: 0
@@ -7049,10 +7049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49f62426555afe4e9cf380f2ea9e5b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hearts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1001 &1909875395
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1274,7 +1274,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1017767157}
         m_TargetAssemblyTypeName: MenuHandler, Assembly-CSharp
-        m_MethodName: PlayGame
+        m_MethodName: PlayGameFromStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2988,6 +2988,22 @@ MonoBehaviour:
   levelSceneNames:
   - SortingMinigame
   - AvoidTheTA
+  - CampusCrossing
+  spawnIntervalStart: 1
+  spawnIntervalDecreasePerLevel: 0.05
+  spawnIntervalMin: 0.3
+  moveSpeedStart: 3
+  moveSpeedIncreasePerLevel: 0.5
+  taDetectionStart: 0.7
+  taDetectionIncreasePerLevel: 0.05
+  playerSpeedStart: 0.5
+  playerSpeedIncreasePerLevel: 0.05
+  campusTimerStart: 60
+  campusTimerDecreasePerLevel: 10
+  campusTimerMin: 15
+  campusClassesStart: 3
+  campusClassesIncreasePerLoop: 1
+  campusClassesMax: 6
 --- !u!4 &1775070150
 Transform:
   m_ObjectHideFlags: 0
@@ -3015,7 +3031,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

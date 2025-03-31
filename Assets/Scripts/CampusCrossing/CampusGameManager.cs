@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -26,7 +27,7 @@ public class CampusGameManager : MonoBehaviour
 
     [Header("Timer Settings")]
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private float initialTimerDuration = 60f;
+    [SerializeField] public float initialTimerDuration = 60f;
     [SerializeField] private bool timerActive = false;
     [SerializeField] private string timerFormat = "0.0";
     private float currentTime;
@@ -46,10 +47,31 @@ public class CampusGameManager : MonoBehaviour
     [Header("Debug")]
     public bool showDebug = true;
 
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip goalReachedClip;
+   
+
     private List<GameObject> allGoals = new List<GameObject>();
     [SerializeField] private int goalsHit = 0;
     [SerializeField] private string goalName;
     public string GoalName => goalName;
+
+    private bool gameStarted = false;
+
+
+    private void Start()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();           
+            audioSource.clip = null;      
+            audioSource.playOnAwake = false;
+        }
+
+        gameStarted = true;
+    }
 
     private void Awake()
     {
@@ -220,14 +242,32 @@ public class CampusGameManager : MonoBehaviour
 
         if (showDebug) Debug.Log($"Goal reached: {currentActiveGoal.name}", currentActiveGoal);
 
-        // respawn player at last reached goal if enabled
+        
+        if (goalsHit >= 1 && audioSource != null && !audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(goalReachedClip);
+        }
+
+        // Play goal reached sound effect (no coroutine)
+        if (gameStarted && audioSource != null && goalReachedClip != null)
+        {
+            audioSource.PlayOneShot(goalReachedClip);
+        }
+
+        // Respawn and select new goal
         if (respawnOnGoalReached && spawnManager != null)
         {
             spawnManager.RespawnPlayerAtLastGoal(currentActiveGoal);
         }
 
-        if (autoSelectNewGoal) SelectRandomGoal();
+        if (autoSelectNewGoal)
+        {
+            SelectRandomGoal();
+        }
     }
+
+
+
 
     private void SetGoalState(GameObject goal, bool active)
     {
@@ -253,13 +293,25 @@ public class CampusGameManager : MonoBehaviour
         goalText.enabled = false;
     }
 
+    private bool gameEnded = false;
+
     private void GameOver()
     {
+        DisablePlayerInput();
+        if (gameEnded) return;
+        gameEnded = true;
+
         Debug.Log("You're winner!");
+
+        if (GameManagerMenu.instance != null)
+        {
+            GameManagerMenu.instance.AdvanceLevel();
+        }
     }
 
     void Update()
     {
+        if (gameEnded) return;
         // update input disabling timer
         if (playerInputDisabled)
         {
@@ -288,7 +340,13 @@ public class CampusGameManager : MonoBehaviour
                 currentTime = 0f;
                 timerActive = false;
 
-                onTimerFinished.Invoke();
+                //onTimerFinished.Invoke();
+                DisablePlayerInput();
+                if (GameManagerMenu.instance != null)
+                {
+                    GameManagerMenu.instance.OnPlayerDeath();
+                }
+
 
                 if (showDebug) Debug.Log("Timer finished!");
             }

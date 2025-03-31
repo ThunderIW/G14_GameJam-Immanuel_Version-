@@ -7,9 +7,16 @@ public class MenuHandler : MonoBehaviour
     public string mainMenuScene = "main_menu";
     public string startingMiniGame = "SortingMinigame";
 
-    public void PlayGame()
+    public void PlayGameFromStart()
     {
-        GameManagerMenu.instance.LoadSceneWithFade(startingMiniGame);
+        if (GameManagerMenu.instance != null)
+        {
+            GameManagerMenu.instance.ResetGame(); // Ensures clean start
+        }
+        else
+        {
+            Debug.LogWarning("GameManagerMenu instance is null in PlayGame()");
+        }
     }
 
     public void OpenOptions()

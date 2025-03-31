@@ -11,6 +11,7 @@ public class GameManagerMenu : MonoBehaviour
     private StudentSpawner spawner;
     private TAController[] controllers;
     private PlayerController playerController;
+    private CampusGameManager manager;
 
     [Header("Scene Transition")]
     public Image fadeImage;
@@ -33,6 +34,7 @@ public class GameManagerMenu : MonoBehaviour
     public string[] levelSceneNames;
 
     [Header("Difficulty Scaling")]
+    [Header("Sorting MiniGame settings")]
     [SerializeField] private float spawnIntervalStart = 1f;
     [SerializeField] private float spawnIntervalDecreasePerLevel = 0.05f;
     [SerializeField] private float spawnIntervalMin = 0.3f;
@@ -40,13 +42,24 @@ public class GameManagerMenu : MonoBehaviour
     [SerializeField] private float moveSpeedStart = 3f; // StudentSpawner move speed
     [SerializeField] private float moveSpeedIncreasePerLevel = 0.5f;
 
+
+    [Header("Avoid the TA MiniGame settings")]
     [SerializeField] private float taDetectionStart = 0.7f;
     [SerializeField] private float taDetectionIncreasePerLevel = 0.05f;
 
     [SerializeField] private float playerSpeedStart = 0.5f;
     [SerializeField] private float playerSpeedIncreasePerLevel = 0.05f;
 
-    public float scoreMultiplier { get; private set; } = 1f;
+    [Header("CampusDriveAround MiniGame settings")]
+    [SerializeField] private float campusTimerStart = 60f;
+    [SerializeField] private float campusTimerDecreasePerLevel = 10f;
+    [SerializeField] private float campusTimerMin = 15f;
+
+    [SerializeField] private int campusClassesStart = 3;
+    [SerializeField] private int campusClassesIncreasePerLoop = 1;
+    [SerializeField] private int campusClassesMax = 6;
+
+    
 
 
     void Awake()
@@ -85,6 +98,7 @@ public class GameManagerMenu : MonoBehaviour
         spawner = FindFirstObjectByType<StudentSpawner>();
         controllers = FindObjectsByType<TAController>(FindObjectsSortMode.None);
         playerController = FindFirstObjectByType<PlayerController>();
+        manager = FindFirstObjectByType<CampusGameManager>();
 
         StartCoroutine(FadeInRoutine());
         UpdateLevelText();
@@ -104,7 +118,9 @@ public class GameManagerMenu : MonoBehaviour
         AdjustSpawnerDifficulty();
         AdjustTADifficulty();
         AdjustPlayerDifficulty();
-        
+        AdjustCampusGameDifficulty();
+
+
     }
 
     private void AdjustSpawnerDifficulty()
@@ -147,7 +163,23 @@ public class GameManagerMenu : MonoBehaviour
         }
     }
 
-   
+    private void AdjustCampusGameDifficulty()
+    {
+        if (manager != null)
+        {
+            float newTimer = Mathf.Max(campusTimerMin, campusTimerStart - (currentLevelIndex * campusTimerDecreasePerLevel));
+            int newTotalClasses = Mathf.Min(campusClassesMax, campusClassesStart + ((loopCount - 1) * campusClassesIncreasePerLoop));
+
+            manager.initialTimerDuration = newTimer;
+            manager.totalClasses = newTotalClasses;
+
+            // Apply to the active state too:
+            manager.ResetTimer(); // Resets currentTime to the new initial value
+            Debug.Log($"[DIFFICULTY] Campus — Timer: {newTimer}, Total Classes: {newTotalClasses}");
+        }
+    }
+
+
 
     public void UpdateLevelText()
     {
