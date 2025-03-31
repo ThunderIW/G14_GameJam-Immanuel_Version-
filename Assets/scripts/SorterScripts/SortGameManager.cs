@@ -117,9 +117,9 @@ public class SortGameManager : MonoBehaviour
         }
 
         // Notify GameManager of failure (handles life + scene transitions)
-        if (GameManager.instance != null)
+        if (GameManagerMenu.instance != null)
         {
-            GameManager.instance.OnPlayerDeath();
+            GameManagerMenu.instance.OnPlayerDeath();
         }
     }
 
@@ -147,9 +147,9 @@ public class SortGameManager : MonoBehaviour
 
         Debug.Log("? SortGameManager triggered EndGame");
 
-        if (GameManager.instance != null)
+        if (GameManagerMenu.instance != null)
         {
-            GameManager.instance.AdvanceLevel();
+            GameManagerMenu.instance.AdvanceLevel();
         }
     }
 

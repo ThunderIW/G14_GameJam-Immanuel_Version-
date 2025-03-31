@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameManagerMenu : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManagerMenu instance;
 
     [Header("Scene Transition")]
     public Image fadeImage;

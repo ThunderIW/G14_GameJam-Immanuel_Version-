@@ -9,24 +9,24 @@ public class MenuHandler : MonoBehaviour
 
     public void PlayGame()
     {
-        GameManager.instance.LoadSceneWithFade(startingMiniGame);
+        GameManagerMenu.instance.LoadSceneWithFade(startingMiniGame);
     }
 
     public void OpenOptions()
     {
         Debug.Log("Options menu clicked!");
-        GameManager.instance.LoadSceneWithFade(optionsScene);
+        GameManagerMenu.instance.LoadSceneWithFade(optionsScene);
     }
 
     public void GoBackToMenu()
     {
-        GameManager.instance.LoadSceneWithFade(mainMenuScene);
+        GameManagerMenu.instance.LoadSceneWithFade(mainMenuScene);
     }
 
     public void Save()
     {
         Debug.Log("Saving settings...");
-        GameManager.instance.LoadSceneWithFade(mainMenuScene);
+        GameManagerMenu.instance.LoadSceneWithFade(mainMenuScene);
     }
 
     public void QuitGame()
@@ -34,9 +34,9 @@ public class MenuHandler : MonoBehaviour
         Debug.Log("Quitting game...");
 
         // Play click sound via GameManager
-        if (GameManager.instance != null)
+        if (GameManagerMenu.instance != null)
         {
-            GameManager.instance.audioSource?.PlayOneShot(GameManager.instance.clickSound);
+            GameManagerMenu.instance.audioSource?.PlayOneShot(GameManagerMenu.instance.clickSound);
         }
 
 #if UNITY_EDITOR
