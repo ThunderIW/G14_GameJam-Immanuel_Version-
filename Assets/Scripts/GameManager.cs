@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CanvasGroup fadeCanvas;
     [SerializeField] private float fadeDuration = 1f;
 
+    private bool isCaughtHandled = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -39,18 +41,27 @@ public class GameManager : MonoBehaviour
 
         fadeCanvas.alpha = 1;
 
-        // Placeholder for loading the next game
         Debug.Log("Next game would load here.");
+        GameManagerMenu.instance.AdvanceLevel();
     }
 
     public void HandlePlayerCaught()
     {
-        StartCoroutine(FadeAndReset());
+        if (isCaughtHandled)
+        {
+            Debug.Log("HandlePlayerCaught called again — skipping.");
+            return;
+        }
+
+        isCaughtHandled = true;
+
+        Debug.Log("HandlePlayerCaught triggered.");
+
+        GameManagerMenu.instance.OnPlayerDeath();
     }
 
     private IEnumerator FadeAndReset()
     {
-        // Fade to black
         float t = 0;
         while (t < 1)
         {
@@ -61,18 +72,13 @@ public class GameManager : MonoBehaviour
 
         fadeCanvas.alpha = 1;
 
-        // Stay black for a moment
-        yield return new WaitForSeconds(1f); // You can adjust the duration here
+        yield return new WaitForSeconds(1f);
 
-        // Reload scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        // Wait one frame for scene to fully load
         yield return null;
+        yield return new WaitForSeconds(0.5f);
 
-        yield return new WaitForSeconds(0.5f); // You can adjust the duration here
-
-        // Fade back in
         t = 1;
         while (t > 0)
         {
@@ -82,5 +88,11 @@ public class GameManager : MonoBehaviour
         }
 
         fadeCanvas.alpha = 0;
+    }
+
+    // Optional: call this when resetting game state
+    public void ResetCaughtFlag()
+    {
+        isCaughtHandled = false;
     }
 }

@@ -19,9 +19,9 @@ public class GameManagerMenu : MonoBehaviour
     public HeartManager heartManager;
     public TextMeshProUGUI levelText;
 
-
     [Header("Game State")]
     public int startingLives = 3;
+    public int loopCount { get; private set; } = 1;
     public int currentLives { get; private set; }
     public int currentLevelIndex { get; private set; }
 
@@ -35,7 +35,7 @@ public class GameManagerMenu : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded; // auto fade-in after any scene
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -45,21 +45,6 @@ public class GameManagerMenu : MonoBehaviour
 
         currentLives = startingLives;
         currentLevelIndex = 0;
-    }
-    public void UpdateLevelText()
-    {
-        GameObject levelTextObj = GameObject.FindWithTag("LevelText");
-
-        if (levelTextObj != null)
-        {
-            levelText = levelTextObj.GetComponent<TextMeshProUGUI>();
-            if (levelText != null)
-            {
-                levelText.text = "LEVEL: " + (currentLevelIndex + 1);
-                Debug.Log("LevelText updated: LEVEL " + (currentLevelIndex + 1));
-            }
-            
-        }
     }
 
     void Start()
@@ -79,9 +64,29 @@ public class GameManagerMenu : MonoBehaviour
     {
         StartCoroutine(FadeInRoutine());
         UpdateLevelText();
+
+        if (heartManager == null)
+        {
+            heartManager = FindFirstObjectByType<HeartManager>();
+        }
+
+        heartManager?.UpdateHearts(currentLives);
     }
 
-    // ------------------- LIVES & LEVEL FLOW -------------------
+    public void UpdateLevelText()
+    {
+        GameObject levelTextObj = GameObject.FindWithTag("LevelText");
+
+        if (levelTextObj != null)
+        {
+            levelText = levelTextObj.GetComponent<TextMeshProUGUI>();
+            if (levelText != null)
+            {
+                levelText.text = "LEVEL: " + (currentLevelIndex + 1);
+                Debug.Log("LevelText updated: LEVEL " + (currentLevelIndex + 1));
+            }
+        }
+    }
 
     public void OnPlayerDeath()
     {
@@ -103,7 +108,6 @@ public class GameManagerMenu : MonoBehaviour
         else
         {
             Debug.Log("Advancing to next level after failure...");
-            //RestartLevel();
             AdvanceLevel();
         }
     }
@@ -112,37 +116,43 @@ public class GameManagerMenu : MonoBehaviour
     {
         currentLives = startingLives;
         currentLevelIndex = 0;
-        LoadNextLevel();
+        loopCount = 1;
+
+        if (heartManager == null)
+        {
+            heartManager = FindFirstObjectByType<HeartManager>();
+        }
+        heartManager?.UpdateHearts(currentLives);
+
+        Debug.Log("Game reset. Starting over at LEVEL 1.");
+        LoadNextLevel(0);
     }
 
     public void AdvanceLevel()
     {
-       
-
         currentLevelIndex++;
+        int sceneIndex = currentLevelIndex % levelSceneNames.Length;
 
-        if (currentLevelIndex < levelSceneNames.Length)
+        if (sceneIndex == 0 && currentLevelIndex > 0)
         {
-            Debug.Log("Attempting to load level: " + levelSceneNames[currentLevelIndex]);
-            LoadNextLevel();
+            loopCount++;
+            Debug.Log("Loop complete! Starting loop #" + loopCount);
         }
-        else
-        {
-            Debug.Log("All levels complete!");
-            LoadGameOver(); // Or load win screen
-        }
+
+        Debug.Log($"Advancing to LEVEL {currentLevelIndex + 1} (Scene: {levelSceneNames[sceneIndex]})");
+        LoadNextLevel(sceneIndex);
     }
 
-    public void LoadNextLevel()
+    public void LoadNextLevel(int sceneIndex)
     {
-        if (currentLevelIndex < levelSceneNames.Length)
+        if (sceneIndex >= 0 && sceneIndex < levelSceneNames.Length)
         {
-            Debug.Log("Attempting to load level: " + levelSceneNames[currentLevelIndex]);
-            LoadSceneWithFade(levelSceneNames[currentLevelIndex]);
+            Debug.Log("Attempting to load level: " + levelSceneNames[sceneIndex]);
+            LoadSceneWithFade(levelSceneNames[sceneIndex]);
         }
         else
         {
-            Debug.LogWarning("No more levels to load.");
+            Debug.LogWarning("Invalid scene index: " + sceneIndex);
         }
     }
 
@@ -155,6 +165,7 @@ public class GameManagerMenu : MonoBehaviour
     {
         int levelReached = currentLevelIndex + 1;
         PlayerPrefs.SetInt("LastLevelReached", levelReached);
+        Debug.Log($"LastLevelReached: {levelReached}");
 
         int previousHigh = PlayerPrefs.GetInt("HighScore", 0);
         if (levelReached > previousHigh)
@@ -162,14 +173,9 @@ public class GameManagerMenu : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", levelReached);
         }
 
-
         PlayerPrefs.Save();
         LoadSceneWithFade(gameOverSceneName);
     }
-
-
-
-    // ------------------- FADE SYSTEM -------------------
 
     public void LoadSceneWithFade(string sceneName)
     {
@@ -182,7 +188,7 @@ public class GameManagerMenu : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(sceneName); // fallback if no fade image found
+            SceneManager.LoadScene(sceneName);
         }
     }
 
@@ -210,7 +216,7 @@ public class GameManagerMenu : MonoBehaviour
 
     private IEnumerator FadeInRoutine()
     {
-        yield return null; // wait 1 frame for scene to fully load
+        yield return null;
 
         TryAssignFadeImage();
 
@@ -233,7 +239,7 @@ public class GameManagerMenu : MonoBehaviour
     {
         if (fadeImage == null)
         {
-            GameObject fadeObj = GameObject.FindGameObjectWithTag("FadeUI"); // Or use tag if preferred
+            GameObject fadeObj = GameObject.FindGameObjectWithTag("FadeUI");
             if (fadeObj != null)
             {
                 fadeImage = fadeObj.GetComponent<Image>();

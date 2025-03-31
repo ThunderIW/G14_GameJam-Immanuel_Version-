@@ -18,7 +18,7 @@ public class GameOverSettings : MonoBehaviour
     {
         
         if (PlayerPrefs.HasKey("LastLevelReached") && PlayerPrefs.HasKey("HighScore")){
-            level = PlayerPrefs.GetInt("LastlevelReached", 1);
+            level = PlayerPrefs.GetInt("LastLevelReached", 1);
             highScore = PlayerPrefs.GetInt("HighScore", 1);
 
         }
