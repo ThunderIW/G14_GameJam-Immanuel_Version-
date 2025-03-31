@@ -27,7 +27,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private bool showDebug = true;
 
     private List<Transform> spawnPoints = new List<Transform>();
-    private Transform lastUsedSpawnPoint;
+    private Transform lastGoal;
 
     private void Awake()
     {
@@ -75,9 +75,9 @@ public class SpawnManager : MonoBehaviour
 
         // select a random spawn point, preferably different from the last one
         Transform spawnPoint;
-        if (spawnPoints.Count > 1 && lastUsedSpawnPoint != null)
+        if (spawnPoints.Count > 1 && lastGoal != null)
         {
-            List<Transform> availablePoints = spawnPoints.Where(p => p != lastUsedSpawnPoint).ToList();
+            List<Transform> availablePoints = spawnPoints.Where(p => p != lastGoal).ToList();
             spawnPoint = availablePoints[Random.Range(0, availablePoints.Count)];
         }
         else
@@ -85,7 +85,7 @@ public class SpawnManager : MonoBehaviour
             spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
         }
 
-        lastUsedSpawnPoint = spawnPoint;
+        lastGoal = spawnPoint;
 
         if (spawnNewPlayer && playerPrefab != null)
         {
@@ -126,14 +126,15 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public void RespawnPlayerAtLastPoint()
+    public void RespawnPlayerAtLastGoal(GameObject lastGoalObj)
     {
-        if (lastUsedSpawnPoint != null && playerInstance != null)
+        if (lastGoalObj != null && playerInstance != null)
         {
-            playerInstance.transform.position = lastUsedSpawnPoint.position + spawnOffset;
-            playerInstance.transform.rotation = lastUsedSpawnPoint.rotation;
+            lastGoal = lastGoalObj.GetComponent<Transform>();
+            playerInstance.transform.position = lastGoal.position + spawnOffset;
+            playerInstance.transform.rotation = lastGoal.rotation;
 
-            if (showDebug) Debug.Log($"Respawned player at last spawn point: {lastUsedSpawnPoint.name}", lastUsedSpawnPoint);
+            if (showDebug) Debug.Log($"Respawned player at last goal: {lastGoal.name}", lastGoal);
         }
         else
         {

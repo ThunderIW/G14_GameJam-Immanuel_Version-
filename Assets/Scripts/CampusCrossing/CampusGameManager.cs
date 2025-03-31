@@ -218,13 +218,14 @@ public class CampusGameManager : MonoBehaviour
         goalsHit++;
 
         if (showDebug) Debug.Log($"Goal reached: {currentActiveGoal.name}", currentActiveGoal);
-        if (autoSelectNewGoal) SelectRandomGoal();
 
-        // respawn player at random point if enabled
+        // respawn player at last reached goal if enabled
         if (respawnOnGoalReached && spawnManager != null)
         {
-            spawnManager.SpawnPlayerAtRandomPoint();
+            spawnManager.RespawnPlayerAtLastGoal(currentActiveGoal);
         }
+
+        if (autoSelectNewGoal) SelectRandomGoal();
     }
 
     private void SetGoalState(GameObject goal, bool active)
