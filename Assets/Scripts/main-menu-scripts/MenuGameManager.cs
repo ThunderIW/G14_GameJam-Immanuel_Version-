@@ -159,9 +159,19 @@ public class GameManagerMenu : MonoBehaviour
             if (levelText != null)
             {
                 levelText.text = "LEVEL: " + (currentLevelIndex + 1);
+                AnimateLevelText();
                 Debug.Log("LevelText updated: LEVEL " + (currentLevelIndex + 1));
             }
         }
+    }
+    private void AnimateLevelText()
+    {
+        if (levelText == null) return;
+        DOTween.Kill(levelText.transform);
+        levelText.transform.localScale = Vector3.one;
+        levelText.alpha = 1f;
+        levelText.transform.DOPunchScale(Vector3.one * 0.5f, 0.4f, 5, 0.5f);
+
     }
 
     public void OnPlayerDeath()
