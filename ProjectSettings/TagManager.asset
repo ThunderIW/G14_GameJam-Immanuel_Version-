@@ -4,24 +4,31 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Ground
+  - Camera Bounds
+  - TA
+  - Emote
+  - UI
   - Arts Major
   - Science Major
   - Eng Major
   - ccGoal
   - ccPlayer
   - ccSpawn
+
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
+  - Player
   - Students
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Camera Bounds
+  - Background
+  - Foreground
+  - TA
+  - Emote
   - 
   - 
   - 
@@ -46,6 +53,18 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1773173629
+    locked: 0
+  - name: Foreground
+    uniqueID: 708249147
+    locked: 0
+  - name: Player
+    uniqueID: 1914580937
+    locked: 0
+  - name: UI
+    uniqueID: 2215194849
     locked: 0
   m_RenderingLayers:
   - Default
