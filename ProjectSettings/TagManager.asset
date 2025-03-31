@@ -12,6 +12,9 @@ TagManager:
   - Arts Major
   - Science Major
   - Eng Major
+  - ccGoal
+  - ccPlayer
+  - ccSpawn
 
   layers:
   - Default
