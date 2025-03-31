@@ -7,14 +7,17 @@ public class SortGameManager : MonoBehaviour
 {
     public static SortGameManager Instance;
 
+    [Header("Fail Settings")]
     public float resetDelay = 2f;
     public AudioClip failSound;
     public bool hasFailed = false;
 
+    [Header("UI Elements")]
     public TextMeshProUGUI studentsLeftText;
     public TextMeshProUGUI feedbackText;
     public TextMeshProUGUI startPromptText;
 
+    [Header("Gameplay Settings")]
     public int totalStudents = 20;
     private int studentsSorted = 0;
     private bool gameStarted = false;
@@ -61,26 +64,27 @@ public class SortGameManager : MonoBehaviour
 
         hasFailed = true;
 
+        CameraShake.Shake(0.5f, 0.5f);
+
+        // Disable the spawner
         StudentSpawner spawner = FindAnyObjectByType<StudentSpawner>();
         if (spawner != null)
         {
             spawner.enabled = false;
         }
 
-        CameraShake.Shake(0.5f, 0.5f);
-
         StartCoroutine(ResetGame());
     }
 
-    IEnumerator ResetGame()
+    private IEnumerator ResetGame()
     {
         if (failSound != null)
         {
             AudioSource.PlayClipAtPoint(failSound, Camera.main.transform.position);
         }
 
+        // Stop all followers and clean them up
         PathFollower[] allFollowers = FindObjectsByType<PathFollower>(FindObjectsSortMode.None);
-
         foreach (var f in allFollowers)
         {
             if (f != null)
@@ -112,12 +116,12 @@ public class SortGameManager : MonoBehaviour
             }
         }
 
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        SceneManager.LoadScene("GameOver");
+        // Notify GameManager of failure (handles life + scene transitions)
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnPlayerDeath();
+        }
     }
-
-    
-
 
     public void StudentSorted()
     {
@@ -139,8 +143,14 @@ public class SortGameManager : MonoBehaviour
 
     void EndGame()
     {
-        Time.timeScale = 0f;
-        
+        Time.timeScale = 1f;
+
+        Debug.Log("? SortGameManager triggered EndGame");
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.AdvanceLevel();
+        }
     }
 
     public void ShowFeedback(string message)
