@@ -22,6 +22,7 @@ public class CampusGameManager : MonoBehaviour
     public float minGoalChangeDelay = 1f;
     public bool hideInactiveGoals = true;
     public bool disableInactiveInteractions = true;
+    public int totalClasses = 3;
 
     [Header("Timer Settings")]
     [SerializeField] private TextMeshProUGUI timerText;
@@ -252,6 +253,11 @@ public class CampusGameManager : MonoBehaviour
         goalText.enabled = false;
     }
 
+    private void GameOver()
+    {
+        Debug.Log("You're winner!");
+    }
+
     void Update()
     {
         // update input disabling timer
@@ -288,6 +294,11 @@ public class CampusGameManager : MonoBehaviour
             }
 
             UpdateTimerDisplay();
+        }
+
+        if (goalsHit == totalClasses)
+        {
+            GameOver();
         }
 
         if (Input.GetKeyUp(KeyCode.Escape) && showDebug == true)
