@@ -43,11 +43,11 @@ public class SortGameManager : MonoBehaviour
 
 #if UNITY_EDITOR
         // TESTING ONLY: Press W to simulate all students sorted
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Debug.Log("FORCED WIN TRIGGERED");
-            StartCoroutine(HandleSortWin()); // or just call EndGame() if you skip feedback
-        }
+        //if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    Debug.Log("FORCED WIN TRIGGERED");
+            //StartCoroutine(HandleSortWin()); // or just call EndGame() if you skip feedback
+        //}
 #endif
     }
 
