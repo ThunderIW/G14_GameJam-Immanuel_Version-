@@ -9,11 +9,16 @@ TagManager:
   - TA
   - Emote
   - UI
+  - Arts Major
+  - Science Major
+  - Eng Major
+
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
   - Player
+  - Students
   - Water
   - UI
   - Camera Bounds
