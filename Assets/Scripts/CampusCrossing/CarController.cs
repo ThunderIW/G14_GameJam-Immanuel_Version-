@@ -23,16 +23,6 @@ public class CarController : MonoBehaviour
         carRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
-    {
-       
-    }
-
-    private void Update()
-    {
- 
-    }
-
     void FixedUpdate()
     {
         ApplyEngineForce();
@@ -43,7 +33,6 @@ public class CarController : MonoBehaviour
     void ApplyEngineForce()
     {
         fwdVelocity = Vector2.Dot(transform.up, carRigidbody.linearVelocity);
-        Debug.Log(fwdVelocity.ToString());
 
         //prevent car from accelerating more if it has hit its top speed
         if (fwdVelocity > maxSpeed && accelInput > 0)
