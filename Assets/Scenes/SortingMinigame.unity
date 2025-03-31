@@ -1280,7 +1280,7 @@ MonoBehaviour:
   acceptedMajor: Science
   correctSound: {fileID: 8300000, guid: bf095c3ff246640fca0936980fa82a9a, type: 3}
   incorrectSound: {fileID: 8300000, guid: 3a6ab4ae0bc8c45a89bdb1e35e64fe7f, type: 3}
-  audioVolume: 0.05
+  audioVolume: 0.75
 --- !u!61 &367231580
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4156,7 +4156,7 @@ MonoBehaviour:
   acceptedMajor: Arts
   correctSound: {fileID: 8300000, guid: bf095c3ff246640fca0936980fa82a9a, type: 3}
   incorrectSound: {fileID: 8300000, guid: 3a6ab4ae0bc8c45a89bdb1e35e64fe7f, type: 3}
-  audioVolume: 0.05
+  audioVolume: 0.75
 --- !u!61 &1006610773
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6594,7 +6594,7 @@ MonoBehaviour:
   acceptedMajor: Engineering
   correctSound: {fileID: 8300000, guid: bf095c3ff246640fca0936980fa82a9a, type: 3}
   incorrectSound: {fileID: 8300000, guid: 3a6ab4ae0bc8c45a89bdb1e35e64fe7f, type: 3}
-  audioVolume: 0.05
+  audioVolume: 0.75
 --- !u!61 &1591247684
 BoxCollider2D:
   m_ObjectHideFlags: 0
