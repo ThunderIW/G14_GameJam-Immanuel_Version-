@@ -7,8 +7,8 @@ public class GameOverSettings : MonoBehaviour
     public TextMeshProUGUI highScoreText;
    
     [Header("For testing the level reached text and highScore achieved")]
-    [SerializeField]  private int level=5;
-    [SerializeField]  private int highScore = 5;
+    [SerializeField]  private int level=1;
+    [SerializeField]  private int highScore = 1;
 
    
 
@@ -17,9 +17,9 @@ public class GameOverSettings : MonoBehaviour
     void Start()
     {
         
-        if (PlayerPrefs.HasKey("levelReached") && PlayerPrefs.HasKey("HighScore")){
-            level = PlayerPrefs.GetInt("levelReached", 0);
-            highScore = PlayerPrefs.GetInt("HighScore", 0);
+        if (PlayerPrefs.HasKey("LastLevelReached") && PlayerPrefs.HasKey("HighScore")){
+            level = PlayerPrefs.GetInt("LastlevelReached", 1);
+            highScore = PlayerPrefs.GetInt("HighScore", 1);
 
         }
         levelText.text = $"You reached:  <b><color=#6EC4E8>level {level}</color></b>";

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,8 +15,10 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip clickSound;
 
-    [Header("Lives UI")]
+    [Header("Lives UI and Level UI")]
     public HeartManager heartManager;
+    public TextMeshProUGUI levelText;
+
 
     [Header("Game State")]
     public int startingLives = 3;
@@ -43,6 +46,21 @@ public class GameManager : MonoBehaviour
         currentLives = startingLives;
         currentLevelIndex = 0;
     }
+    public void UpdateLevelText()
+    {
+        GameObject levelTextObj = GameObject.FindWithTag("LevelText");
+
+        if (levelTextObj != null)
+        {
+            levelText = levelTextObj.GetComponent<TextMeshProUGUI>();
+            if (levelText != null)
+            {
+                levelText.text = "LEVEL: " + (currentLevelIndex + 1);
+                Debug.Log("LevelText updated: LEVEL " + (currentLevelIndex + 1));
+            }
+            
+        }
+    }
 
     void Start()
     {
@@ -60,6 +78,7 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(FadeInRoutine());
+        UpdateLevelText();
     }
 
     // ------------------- LIVES & LEVEL FLOW -------------------
@@ -134,8 +153,21 @@ public class GameManager : MonoBehaviour
 
     public void LoadGameOver()
     {
+        int levelReached = currentLevelIndex + 1;
+        PlayerPrefs.SetInt("LastLevelReached", levelReached);
+
+        int previousHigh = PlayerPrefs.GetInt("HighScore", 0);
+        if (levelReached > previousHigh)
+        {
+            PlayerPrefs.SetInt("HighScore", levelReached);
+        }
+
+
+        PlayerPrefs.Save();
         LoadSceneWithFade(gameOverSceneName);
     }
+
+
 
     // ------------------- FADE SYSTEM -------------------
 

@@ -8,6 +8,7 @@ TagManager:
   - Science Major
   - Eng Major
   - FadeUI
+  - LevelText
   layers:
   - Default
   - TransparentFX

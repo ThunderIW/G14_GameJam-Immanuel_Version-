@@ -7638,8 +7638,8 @@ GameObject:
   - component: {fileID: 1885464411}
   - component: {fileID: 1885464410}
   m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_Name: LevelDisplay
+  m_TagString: LevelText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7660,7 +7660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.213, y: 0.00000018999}
+  m_AnchoredPosition: {x: -0.61, y: 0.00000018999}
   m_SizeDelta: {x: 1.742, y: 0.4354}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1885464410
@@ -8500,8 +8500,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -484.65207, y: -265.75}
-  m_SizeDelta: {x: 2.6225, y: 0.8}
+  m_AnchoredPosition: {x: -484.28253, y: -265.75}
+  m_SizeDelta: {x: 3.3615, y: 0.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2079575417
 MonoBehaviour:

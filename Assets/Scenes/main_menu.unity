@@ -2982,6 +2982,7 @@ MonoBehaviour:
   audioSource: {fileID: 1775070151}
   clickSound: {fileID: 8300000, guid: 4f046ff412df80c48aab51f89b3eeafb, type: 3}
   heartManager: {fileID: 0}
+  levelText: {fileID: 0}
   startingLives: 3
   gameOverSceneName: GameOver
   levelSceneNames:
