@@ -484,10 +484,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -869,6 +869,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneMusic: {fileID: 8300000, guid: 6befc5c2257d84542addef4ce8877fe5, type: 3}
+  onlyPlayOnce: 0
+  loop: 1
 --- !u!4 &569388387
 Transform:
   m_ObjectHideFlags: 0
@@ -1697,7 +1699,7 @@ GameObject:
   - component: {fileID: 1017767157}
   - component: {fileID: 1017767158}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1803,6 +1805,9 @@ MonoBehaviour:
   fadeDuration: 1
   audioSource: {fileID: 1017767158}
   clickSound: {fileID: 8300000, guid: 4f046ff412df80c48aab51f89b3eeafb, type: 3}
+  optionsScene: Options
+  mainMenuScene: main_menu
+  StartingMiniGame: SortingMinigame
 --- !u!82 &1017767158
 AudioSource:
   m_ObjectHideFlags: 0

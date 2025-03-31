@@ -4,7 +4,8 @@ public class ScoringZone : MonoBehaviour
 {
     public string acceptedMajor;         
     public AudioClip correctSound;       
-    public AudioClip incorrectSound;     
+    public AudioClip incorrectSound;
+    [SerializeField] float audioVolume = 0.5f;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -14,7 +15,7 @@ public class ScoringZone : MonoBehaviour
         if (student == null) return;
 
         AudioSource audio = gameObject.AddComponent<AudioSource>();
-        audio.volume = 0.05f;
+        audio.volume = audioVolume;
 
         if (student.major == acceptedMajor)
         {

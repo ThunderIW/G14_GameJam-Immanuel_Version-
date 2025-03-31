@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayMusic(AudioClip clip)
+    public void PlayMusic(AudioClip clip ,bool loop)
     {
         if (musicSource == null || clip == null) {
             Debug.LogWarning("PlayMusic: musicSource or clip is null!");
@@ -57,7 +57,9 @@ public class AudioManager : MonoBehaviour
         Debug.Log("PlayMusic: Switching music to " + clip.name);
         musicSource.Stop();
         musicSource.clip = clip;
+        musicSource.loop = loop;
         musicSource.Play();
+        Debug.Log("Playing music: " + clip.name + " | Loop: " + loop);
     }
 
 

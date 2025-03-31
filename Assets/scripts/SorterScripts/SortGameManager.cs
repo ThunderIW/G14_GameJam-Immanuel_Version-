@@ -112,8 +112,12 @@ public class SortGameManager : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("GameOver");
     }
+
+    
+
 
     public void StudentSorted()
     {
@@ -136,6 +140,7 @@ public class SortGameManager : MonoBehaviour
     void EndGame()
     {
         Time.timeScale = 0f;
+        
     }
 
     public void ShowFeedback(string message)

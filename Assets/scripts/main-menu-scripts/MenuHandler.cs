@@ -22,6 +22,7 @@ public class MenuHandler : MonoBehaviour
     [Header("Scences")]
     public string optionsScene = "Options";
     public string mainMenuScene = "main_menu";
+    public string StartingMiniGame = "SortingMinigame";
     void Start()
     {
         // Fade in from black when menu loads
@@ -40,7 +41,7 @@ public class MenuHandler : MonoBehaviour
     public void PlayGame()
     {
         PlayClickSound();
-        StartSceneTransition("YourGameSceneName");
+        StartSceneTransition(StartingMiniGame);
     }
 
     public void OpenOptions()
