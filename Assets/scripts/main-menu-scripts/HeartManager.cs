@@ -6,7 +6,11 @@ public class HeartManager : MonoBehaviour
 
     void Start()
     {
-        UpdateHearts(GameManagerMenu.instance.currentLives);
+        if (GameManagerMenu.instance != null) {
+            UpdateHearts(GameManagerMenu.instance.currentLives);
+        }
+
+       
     }
 
     public void UpdateHearts(int lives)
