@@ -18,8 +18,8 @@ public class TAController : MonoBehaviour
     [SerializeField] private GameObject emote; 
 
     [Header("Tweakables")]
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float detectionDistance = 5f;
+    [SerializeField] public float moveSpeed = 2f;
+    [SerializeField] public float detectionDistance = 5f;
     
 
 

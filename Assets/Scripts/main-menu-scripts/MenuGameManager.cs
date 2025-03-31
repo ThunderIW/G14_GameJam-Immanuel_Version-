@@ -8,6 +8,9 @@ using TMPro;
 public class GameManagerMenu : MonoBehaviour
 {
     public static GameManagerMenu instance;
+    private StudentSpawner spawner;
+    private TAController[] controllers;
+    private PlayerController playerController;
 
     [Header("Scene Transition")]
     public Image fadeImage;
@@ -28,6 +31,23 @@ public class GameManagerMenu : MonoBehaviour
     [Header("Scene Names")]
     public string gameOverSceneName = "GameOver";
     public string[] levelSceneNames;
+
+    [Header("Difficulty Scaling")]
+    [SerializeField] private float spawnIntervalStart = 1f;
+    [SerializeField] private float spawnIntervalDecreasePerLevel = 0.05f;
+    [SerializeField] private float spawnIntervalMin = 0.3f;
+
+    [SerializeField] private float moveSpeedStart = 3f; // StudentSpawner move speed
+    [SerializeField] private float moveSpeedIncreasePerLevel = 0.5f;
+
+    [SerializeField] private float taDetectionStart = 0.7f;
+    [SerializeField] private float taDetectionIncreasePerLevel = 0.05f;
+
+    [SerializeField] private float playerSpeedStart = 0.5f;
+    [SerializeField] private float playerSpeedIncreasePerLevel = 0.05f;
+
+    public float scoreMultiplier { get; private set; } = 1f;
+
 
     void Awake()
     {
@@ -62,6 +82,10 @@ public class GameManagerMenu : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        spawner = FindFirstObjectByType<StudentSpawner>();
+        controllers = FindObjectsByType<TAController>(FindObjectsSortMode.None);
+        playerController = FindFirstObjectByType<PlayerController>();
+
         StartCoroutine(FadeInRoutine());
         UpdateLevelText();
 
@@ -71,7 +95,59 @@ public class GameManagerMenu : MonoBehaviour
         }
 
         heartManager?.UpdateHearts(currentLives);
+
+        AdjustDifficulty();
     }
+
+    private void AdjustDifficulty()
+    {
+        AdjustSpawnerDifficulty();
+        AdjustTADifficulty();
+        AdjustPlayerDifficulty();
+        
+    }
+
+    private void AdjustSpawnerDifficulty()
+    {
+        if (spawner != null)
+        {
+            float newSpawnInterval = Mathf.Max(spawnIntervalMin, spawnIntervalStart - (currentLevelIndex * spawnIntervalDecreasePerLevel));
+            float newMoveSpeed = moveSpeedStart + (currentLevelIndex * moveSpeedIncreasePerLevel);
+
+            spawner.spawnInterval = newSpawnInterval;
+            spawner.moveSpeed = newMoveSpeed;
+
+            Debug.Log($"[DIFFICULTY] Spawner — Interval: {newSpawnInterval}, Speed: {newMoveSpeed}");
+        }
+    }
+
+    private void AdjustTADifficulty()
+    {
+        if (controllers != null)
+        {
+            float newDetection = taDetectionStart + (currentLevelIndex * taDetectionIncreasePerLevel);
+
+            foreach (var ta in controllers)
+            {
+                ta.detectionDistance = newDetection;
+            }
+
+            Debug.Log($"[DIFFICULTY] TA Detection Distance: {newDetection}");
+        }
+    }
+
+    private void AdjustPlayerDifficulty()
+    {
+        if (playerController != null)
+        {
+            float newPlayerSpeed = playerSpeedStart + (currentLevelIndex * playerSpeedIncreasePerLevel);
+            playerController.moveSpeed = newPlayerSpeed;
+
+            Debug.Log($"[DIFFICULTY] Player Speed: {newPlayerSpeed}");
+        }
+    }
+
+   
 
     public void UpdateLevelText()
     {

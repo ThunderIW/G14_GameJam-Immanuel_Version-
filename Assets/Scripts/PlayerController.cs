@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject emote;
 
     [Header("Tweakables")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float detectionDistance = 8f;
+    [SerializeField] public float moveSpeed = 5f;
+    [SerializeField] public float detectionDistance = 8f;
 
     private Rigidbody2D rb;
     private Vector2 moveDirection;
@@ -234,4 +234,5 @@ public class PlayerController : MonoBehaviour
         currentInteractable.ShowClosed();
         currentInteractable = null;
     }
+
 }

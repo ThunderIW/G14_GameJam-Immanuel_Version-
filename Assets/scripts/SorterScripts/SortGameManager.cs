@@ -40,7 +40,17 @@ public class SortGameManager : MonoBehaviour
         {
             StartGame();
         }
+
+#if UNITY_EDITOR
+        // TESTING ONLY: Press W to simulate all students sorted
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Debug.Log("FORCED WIN TRIGGERED");
+            StartCoroutine(HandleSortWin()); // or just call EndGame() if you skip feedback
+        }
+#endif
     }
+
 
     void StartGame()
     {
@@ -123,6 +133,16 @@ public class SortGameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator HandleSortWin()
+    {
+        ShowFeedback("Sorted!");
+
+        // Wait for feedback to show and fade before ending game
+        yield return new WaitForSeconds(2f); // 1.5s message + 0.5s fade time
+
+        EndGame();
+    }
+
     public void StudentSorted()
     {
         studentsSorted++;
@@ -136,8 +156,7 @@ public class SortGameManager : MonoBehaviour
 
         if (studentsSorted >= totalStudents)
         {
-            ShowFeedback("Sorted!");
-            EndGame();
+            StartCoroutine(HandleSortWin());
         }
     }
 

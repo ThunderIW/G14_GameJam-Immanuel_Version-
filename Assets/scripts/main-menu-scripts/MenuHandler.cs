@@ -57,4 +57,17 @@ public class MenuHandler : MonoBehaviour
         Debug.Log($"Quality set to: {QualitySettings.names[qualityIndex]}");
         QualitySettings.SetQualityLevel(qualityIndex);
     }
+    public void PlayAgain()
+    {
+        Debug.Log("Play Again clicked!");
+
+        if (GameManagerMenu.instance != null)
+        {
+            GameManagerMenu.instance.ResetGame();
+        }
+        else
+        {
+            Debug.LogWarning("GameManagerMenu instance not found — cannot restart.");
+        }
+    }
 }
