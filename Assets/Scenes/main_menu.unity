@@ -1530,7 +1530,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0.099975586}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &985380892
@@ -2989,11 +2989,11 @@ MonoBehaviour:
   - SortingMinigame
   - AvoidTheTA
   - CampusCrossing
-  spawnIntervalStart: 1
+  spawnIntervalStart: 1.1
   spawnIntervalDecreasePerLevel: 0.05
   spawnIntervalMin: 0.3
-  moveSpeedStart: 3
-  moveSpeedIncreasePerLevel: 0.5
+  moveSpeedStart: 2.4
+  moveSpeedIncreasePerLevel: 0.2
   taDetectionStart: 0.7
   taDetectionIncreasePerLevel: 0.05
   playerSpeedStart: 0.5

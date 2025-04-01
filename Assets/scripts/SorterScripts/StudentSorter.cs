@@ -4,16 +4,17 @@ using UnityEngine;
 public class StudentSorter : MonoBehaviour
 {
     public float speed = 2f;
-    public float delayAfterPath = 0.1f; 
+    public float delayAfterPath = 0.1f;
+    private Coroutine moveCoroutine;
 
     public void StartSorting()
     {
-        StartCoroutine(SortDirection());
+        moveCoroutine = StartCoroutine(SortDirection());
     }
 
     IEnumerator SortDirection()
     {
-        yield return new WaitForSeconds(delayAfterPath); 
+        yield return new WaitForSeconds(delayAfterPath);
 
         Vector3 direction;
 
@@ -34,6 +35,15 @@ public class StudentSorter : MonoBehaviour
         {
             transform.Translate(direction * speed * Time.deltaTime);
             yield return null;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
         }
     }
 }

@@ -46,11 +46,10 @@ public class SortGameManager : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.W))
         //{
         //    Debug.Log("FORCED WIN TRIGGERED");
-            //StartCoroutine(HandleSortWin()); // or just call EndGame() if you skip feedback
+        //    StartCoroutine(HandleSortWin()); // or just call EndGame() if you skip feedback
         //}
 #endif
     }
-
 
     void StartGame()
     {
@@ -126,7 +125,6 @@ public class SortGameManager : MonoBehaviour
             }
         }
 
-        // Notify GameManager of failure (handles life + scene transitions)
         if (GameManagerMenu.instance != null)
         {
             GameManagerMenu.instance.OnPlayerDeath();
@@ -137,9 +135,30 @@ public class SortGameManager : MonoBehaviour
     {
         ShowFeedback("Sorted!");
 
-        // Wait for feedback to show and fade before ending game
-        yield return new WaitForSeconds(2f); // 1.5s message + 0.5s fade time
+        // Freeze all students
+        PathFollower[] allFollowers = FindObjectsByType<PathFollower>(FindObjectsSortMode.None);
+        foreach (var f in allFollowers)
+        {
+            if (f != null)
+            {
+                f.enabled = false;
 
+                StudentSorter sorter = f.GetComponent<StudentSorter>();
+                if (sorter != null)
+                {
+                    sorter.enabled = false; // Stops movement and coroutine
+                }
+
+                Rigidbody2D rb = f.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                    rb.bodyType = RigidbodyType2D.Kinematic;
+                }
+            }
+        }
+
+        yield return new WaitForSeconds(2f);
         EndGame();
     }
 
@@ -163,7 +182,6 @@ public class SortGameManager : MonoBehaviour
     void EndGame()
     {
         Time.timeScale = 1f;
-
         Debug.Log("? SortGameManager triggered EndGame");
 
         if (GameManagerMenu.instance != null)
@@ -185,7 +203,7 @@ public class SortGameManager : MonoBehaviour
 
     private IEnumerator FadeFeedback()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         float duration = 0.5f;
         float elapsed = 0f;
@@ -202,3 +220,4 @@ public class SortGameManager : MonoBehaviour
         feedbackText.text = "";
     }
 }
+
