@@ -5,13 +5,14 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
 
 public class CampusGameManager : MonoBehaviour
 {
     [Header("Goal Settings")]
     public string goalTag = "ccGoal";
-    [SerializeField] private GameObject currentActiveGoal;
-    private GameObject CurrentActiveGoal => currentActiveGoal;
+    [SerializeField] public GameObject currentActiveGoal;
+    public GameObject CurrentActiveGoal => currentActiveGoal;
     private Goal goal;
 
     [Header("Spawn Settings")]
@@ -43,6 +44,7 @@ public class CampusGameManager : MonoBehaviour
 
     [Header("Other")]
     [SerializeField] private TextMeshProUGUI goalText;
+    [SerializeField] private CarController carController;
 
     [Header("Debug")]
     public bool showDebug = true;
@@ -51,7 +53,7 @@ public class CampusGameManager : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip goalReachedClip;
-   
+
 
     private List<GameObject> allGoals = new List<GameObject>();
     [SerializeField] private int goalsHit = 0;
@@ -65,8 +67,8 @@ public class CampusGameManager : MonoBehaviour
     {
         if (audioSource != null)
         {
-            audioSource.Stop();           
-            audioSource.clip = null;      
+            audioSource.Stop();
+            audioSource.clip = null;
             audioSource.playOnAwake = false;
         }
 
@@ -91,8 +93,18 @@ public class CampusGameManager : MonoBehaviour
             }
         }
 
+        if (carController == null)
+        {
+            carController = FindAnyObjectByType<CarController>();
+            if (carController == null && showDebug)
+            {
+                Debug.LogWarning("No CarController found in scene.");
+            }
+        }
+
         InitializeAllGoals();
         SelectRandomGoal();
+        spawnManager.startSpawning();
         InitializeTimer();
         DisablePlayerInput();
         ResetGame();
@@ -141,13 +153,16 @@ public class CampusGameManager : MonoBehaviour
     {
         playerInputDisabled = true;
         inputDisableTimer = inputDisableDuration;
+        carController.KillMovement();
 
-        // show start texting text
-        if (startText != null)
+        // show start text
+        if (startText != null && goalsHit == 0)
         {
+            startText.text = "You have " + totalClasses.ToString() + " classes today, with the first one being in the " + goalName + " building! \n\n Use WASD to get to them on time!";
             startText.gameObject.SetActive(true);
         }
 
+        timerText.enabled = false;
         StopTimer();
 
         if (showDebug) Debug.Log($"Player input disabled for {inputDisableDuration} seconds");
@@ -226,6 +241,11 @@ public class CampusGameManager : MonoBehaviour
         UpdateGoalName(currentActiveGoal.name);
         goalText.text = "Get to the " + goalName + " building!";
 
+        if (spawnManager != null)
+        {
+            spawnManager.currentGoal = currentActiveGoal.transform;
+        }
+
         if (showDebug) Debug.Log($"New goal selected: {currentActiveGoal.name}", currentActiveGoal);
     }
 
@@ -240,10 +260,10 @@ public class CampusGameManager : MonoBehaviour
     {
         goalsHit++;
 
+        DisablePlayerInput();
         if (showDebug) Debug.Log($"Goal reached: {currentActiveGoal.name}", currentActiveGoal);
 
-        
-        if (goalsHit >= 1 && audioSource != null && !audioSource.isPlaying)
+        if (goalsHit > 1 && audioSource != null && !audioSource.isPlaying)
         {
             audioSource.PlayOneShot(goalReachedClip);
         }
@@ -260,14 +280,16 @@ public class CampusGameManager : MonoBehaviour
             spawnManager.RespawnPlayerAtLastGoal(currentActiveGoal);
         }
 
+        // select new goal
         if (autoSelectNewGoal)
         {
             SelectRandomGoal();
         }
+
+        // update startText with new goal name
+        startText.text = "Your next class is in the " + goalName + " building! Don't be late!";
+        startText.gameObject.SetActive(true);
     }
-
-
-
 
     private void SetGoalState(GameObject goal, bool active)
     {
@@ -316,12 +338,6 @@ public class CampusGameManager : MonoBehaviour
         if (playerInputDisabled)
         {
             inputDisableTimer -= Time.deltaTime;
-
-            // update start text
-            if (startText != null)
-            {
-                startText.text = "Your next class is in the " + goalName + " building! \n Don't be late!";
-            }
 
             if (inputDisableTimer <= 0)
             {

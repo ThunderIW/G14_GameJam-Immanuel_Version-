@@ -92,4 +92,9 @@ public class CarController : MonoBehaviour
         steerInput = inputVector.x;
         accelInput = inputVector.y; 
     }
+
+    public void KillMovement()
+    {
+        carRigidbody.linearVelocity = Vector2.zero;
+    }
 }
