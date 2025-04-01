@@ -79,7 +79,7 @@ public class SpawnManager : MonoBehaviour
         // select a random spawn point, preferably different from the last one
         Transform spawnPoint;
 
-        if (lastGoal = null)
+        if (lastGoal == null)
         {
             lastGoal = currentGoal;
         }

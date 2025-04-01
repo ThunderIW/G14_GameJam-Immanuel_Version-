@@ -106,7 +106,7 @@ public class CampusGameManager : MonoBehaviour
         SelectRandomGoal();
         spawnManager.startSpawning();
         InitializeTimer();
-        DisablePlayerInput();
+        EnablePlayerInput();
         ResetGame();
     }
 
