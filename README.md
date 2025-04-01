@@ -24,7 +24,7 @@
 ## 📦 Installation / Play
 
 ### ▶️ Play Online
-[Insert Itch.io or WebGL link if applicable]
+[CLick here to play our game](https://btian58.itch.io/wariubco-okanagan-outrage)
 
 ### 💻 Local Build (Desktop)
 1. Download the `.zip` file from [Google Drive / Itch.io / link].
