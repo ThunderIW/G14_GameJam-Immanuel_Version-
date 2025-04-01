@@ -28,7 +28,7 @@
 
 ### 💻 Local Build (Desktop)
 1. Download the `.zip` file from [Google Drive / Itch.io / link].
-2. Extract the folder.
+2. Extract the folder and add it to unity
 3. Run `YourGameName.exe`.
 
 ---
@@ -39,8 +39,8 @@
 |------------|---------------------|
 | Programmer | Immanuel Wiessler(20803375) |
 | Programmer    |  Adam Delfs (43151877)  |
-| Programmer      | Timothy Thio 88723952    |
-| Programmer     | Eddy Tian 42790253    |
+| Programmer      | Timothy Thio (88723952)    |
+| Programmer     | Eddy Tian (42790253)    |
 ---
 
 ---
