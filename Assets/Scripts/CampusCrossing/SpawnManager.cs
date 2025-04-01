@@ -27,10 +27,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private bool showDebug = true;
 
     private List<Transform> spawnPoints = new List<Transform>();
-    private Transform lastGoal;
+    public Transform currentGoal;
+    public Transform lastGoal;
 
-    private void Awake()
+    public void startSpawning()
     {
+        Random.InitState((int)System.DateTime.Now.Ticks);
+
         FindAllSpawnPoints();
 
         // automatically get player reference if not set and exists in scene
@@ -45,7 +48,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private void FindAllSpawnPoints()
+    public void FindAllSpawnPoints()
     {
         GameObject[] spawnPointObjects = GameObject.FindGameObjectsWithTag(spawnPointTag);
         spawnPoints = spawnPointObjects.Select(obj => obj.transform).ToList();
@@ -75,10 +78,23 @@ public class SpawnManager : MonoBehaviour
 
         // select a random spawn point, preferably different from the last one
         Transform spawnPoint;
-        if (spawnPoints.Count > 1 && lastGoal != null)
+
+        if (lastGoal = null)
         {
-            List<Transform> availablePoints = spawnPoints.Where(p => p != lastGoal).ToList();
+            lastGoal = currentGoal;
+        }
+
+        if (spawnPoints.Count > 1 && lastGoal != null && currentGoal != null)
+        {
+            Debug.Log("Last goal: " + lastGoal.name + " Current Goal: " + currentGoal.name);
+            List<Transform> availablePoints = spawnPoints
+                .Where(p =>
+                {
+                    return p != lastGoal && p != currentGoal;
+                })
+                .ToList();
             spawnPoint = availablePoints[Random.Range(0, availablePoints.Count)];
+            Debug.Log(availablePoints.ToString());
         }
         else
         {
@@ -132,7 +148,8 @@ public class SpawnManager : MonoBehaviour
         {
             lastGoal = lastGoalObj.GetComponent<Transform>();
             playerInstance.transform.position = lastGoal.position + spawnOffset;
-            playerInstance.transform.rotation = lastGoal.rotation;
+            Rigidbody2D rb2d = playerInstance.GetComponent<Rigidbody2D>();
+            rb2d.MoveRotation(rb2d.rotation + 180);
 
             if (showDebug) Debug.Log($"Respawned player at last goal: {lastGoal.name}", lastGoal);
         }
