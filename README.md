@@ -3,7 +3,7 @@
 ## 📖 Description
 **WariUBCO: Okanagan Outrage** is a retro game created for **COSC 416 Game dev Game Jam** within a set period of 2 weeks
 
-**My Responsibilities for this game jam are as follows:**
+**My Responsibilities for this game jam are as follows:(Immanuel wiessler)**
 
 - Making the UI system (looks and feel of the game for main menu, GameOver screen, health and level)
 - Making the Game Manager, which is responsible for:
