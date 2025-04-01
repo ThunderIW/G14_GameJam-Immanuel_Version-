@@ -96,5 +96,7 @@ public class CarController : MonoBehaviour
     public void KillMovement()
     {
         carRigidbody.linearVelocity = Vector2.zero;
+        fwdVelocity = Vector2.Dot(transform.up, carRigidbody.linearVelocity);
+        fwdVelocity = 0;
     }
 }

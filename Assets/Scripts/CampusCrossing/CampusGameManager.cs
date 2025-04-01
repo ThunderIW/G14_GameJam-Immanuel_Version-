@@ -338,7 +338,7 @@ public class CampusGameManager : MonoBehaviour
         if (playerInputDisabled)
         {
             inputDisableTimer -= Time.deltaTime;
-
+            carController.KillMovement();
             if (inputDisableTimer <= 0)
             {
                 EnablePlayerInput();
