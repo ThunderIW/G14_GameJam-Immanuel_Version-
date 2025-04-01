@@ -51,7 +51,7 @@ public class GameManagerMenu : MonoBehaviour
     [SerializeField] private float playerSpeedIncreasePerLevel = 0.05f;
 
     [Header("CampusDriveAround MiniGame settings")]
-    [SerializeField] private float campusTimerStart = 60f;
+    [SerializeField] private float campusTimerStart = 80f;
     [SerializeField] private float campusTimerDecreasePerLevel = 10f;
     [SerializeField] private float campusTimerMin = 15f;
 

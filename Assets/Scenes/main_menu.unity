@@ -2998,7 +2998,7 @@ MonoBehaviour:
   taDetectionIncreasePerLevel: 0.05
   playerSpeedStart: 0.5
   playerSpeedIncreasePerLevel: 0.05
-  campusTimerStart: 60
+  campusTimerStart: 90
   campusTimerDecreasePerLevel: 10
   campusTimerMin: 15
   campusClassesStart: 3
